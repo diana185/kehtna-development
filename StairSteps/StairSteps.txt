@@ -1,0 +1,17 @@
+count steps
+steps = count
+
+for loop step count; count--
+  take a step with left foot over right
+  take a step with right foot over left
+
+  steps-4
+
+  if box
+    if color = red
+	   collect box
+    else
+	   continue
+
+  if count = 0
+    leave box
