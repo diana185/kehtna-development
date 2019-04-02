@@ -1,8 +1,6 @@
 import java.util.Scanner;
-import java.lang.StringBuilder;
 
 public class TextCompressor {
-
   public static void main(String[] args) {
     String text = "";
     String compressed = "";
