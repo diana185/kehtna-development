@@ -25,6 +25,9 @@ public class NavalBattle implements Runnable {
           return;
         }
         break;
+      default:
+      //
+        break;
     }
     NavalBattle app = new NavalBattle(size, ships);
     Thread thread = new Thread(app);
