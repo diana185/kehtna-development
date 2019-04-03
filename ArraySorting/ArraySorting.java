@@ -59,8 +59,8 @@ public class ArraySorting {
 
   public static int randInt(int min, int max) {
     Random random = new Random();
-    int randomNumber = random.nextInt((max - min) + 1) + min;
-    return randomNumber;
+    int randInt = random.nextInt((max - min) + 1) + min;
+    return randInt;
   }
 
   public static boolean isInteger(String str) {
