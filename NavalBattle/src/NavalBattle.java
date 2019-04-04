@@ -6,6 +6,10 @@ public class NavalBattle implements Runnable {
 
   private boolean gameRunning = false;
 
+  /**
+   * Main method
+   * @param args Arguments from command line - String[]
+   */
   public static void main(String[] args) {
     int size = 5;
     int ships = ((size * size) / 3);
@@ -18,8 +22,11 @@ public class NavalBattle implements Runnable {
         ships = Integer.parseInt(args[1]);
         break;
       default:
-        size = 5;
-        ships = ((size * size) / 3);
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter board size: ");
+        size = Integer.parseInt(scanner.nextLine());
+        System.out.println("Enter the amount of ships: ");
+        ships = Integer.parseInt(scanner.nextLine());
         break;
     }
     NavalBattle app = new NavalBattle(size, ships);
@@ -27,7 +34,9 @@ public class NavalBattle implements Runnable {
     thread.start();
   }
 
-  // RUN
+  /**
+   * Runnable method
+   */
   public void run() {
     while (gameRunning) {
       //System.out.println("Running...");
@@ -40,17 +49,25 @@ public class NavalBattle implements Runnable {
     }
   }
 
-  // CLASS CONSTRUCTOR
+  /**
+   * Class NavalBattle constructor
+   * @param size Size of the board - int
+   * @param ships Amount of the ships - int
+   */
+  @SuppressWarnings("WeakerAccess")
   public NavalBattle(int size, int ships) {
     int[] array = genArray(size, ships);
     int[][] board = arrayToBoard(array, size);
     printBoard(board);
-    System.out.println(size);
-    System.out.println(ships);
+    //System.out.println(size);
+    //System.out.println(ships);
   }
 
-  // METHODS
-  private int[] shuffleArray(int[] array) {
+  /**
+   * Array shuffler
+   * @param array Array to be shuffled - int[]
+   */
+  private void shuffleArray(int[] array) {
     Random rnd = ThreadLocalRandom.current();
     for (int i = array.length - 1; i > 0; i--) {
       int index = rnd.nextInt(i + 1);
@@ -58,7 +75,6 @@ public class NavalBattle implements Runnable {
       array[index] = array[i];
       array[i] = a;
     }
-    return array;
   }
 
   private int[] boardToArray(int[][] board) {
@@ -82,7 +98,7 @@ public class NavalBattle implements Runnable {
         array[a] = 0;
       }
     }
-    array = shuffleArray(array);
+    shuffleArray(array);
     return array;
   }
 
