@@ -116,8 +116,6 @@ public class NavalBattle implements Runnable {
   private void clearScreen() {
     try {
       new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-    } catch(Exception e) {
-      return;
-    }
+    } catch(Exception e) {}
   }
 }
