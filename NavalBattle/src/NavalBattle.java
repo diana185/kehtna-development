@@ -26,6 +26,7 @@ public class NavalBattle implements Runnable {
     Thread thread = new Thread(app);
     thread.start();
   }
+
   // RUN
   public void run() {
     while (gameRunning) {
@@ -38,6 +39,7 @@ public class NavalBattle implements Runnable {
       }
     }
   }
+
   // CLASS CONSTRUCTOR
   public NavalBattle(int size, int ships) {
     int[] array = genArray(size, ships);
@@ -46,6 +48,7 @@ public class NavalBattle implements Runnable {
     System.out.println(size);
     System.out.println(ships);
   }
+
   // METHODS
   private int[] shuffleArray(int[] array) {
     Random rnd = ThreadLocalRandom.current();
@@ -96,26 +99,26 @@ public class NavalBattle implements Runnable {
   }
 
   private void printBoard(int[][] board) {
-    System.out.println("");
+    System.out.println();
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[0].length; j++) {
         System.out.print(board[i][j] + " ");
       }
-      System.out.println("");
+      System.out.println();
     }
   }
 
   private void printArray(int[] array) {
-    System.out.println("");
-    for (int i = 0; i < array.length; i++) {
-      System.out.print(array[i] + " ");
-    }
-    System.out.println("");
+    System.out.println();
+      for (int value : array) System.out.print(value + " ");
+    System.out.println();
   }
 
   private void clearScreen() {
     try {
       new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-    } catch(Exception e) {}
+    } catch(Exception e) {
+        //
+    }
   }
 }
