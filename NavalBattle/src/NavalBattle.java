@@ -1,12 +1,14 @@
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class NavalBattle implements Runnable {
 
-  private boolean gameRunning;
+  private boolean gameRunning = false;
+  private final String PROGRESS_FILENAME = "progress.txt";
 
   /**
    * Main method
@@ -15,12 +17,12 @@ public class NavalBattle implements Runnable {
   public static void main(String[] args) {
     int size = 5;
     int ships = ((size * size) / 3);
-    int minSize = 5;
-    int maxSize = 20;
-    int defaultSize = 10;
-    int minShips = 3;
-    int maxShips = ((size * size) / 3);
-    int defaultShips = ((size * size) / 2);
+    final int minSize = 5;
+    final int maxSize = 20;
+    final int defaultSize = 10;
+    final int minShips = 3;
+    final int maxShips = ((size * size) / 3);
+    final int defaultShips = ((size * size) / 2);
 
     switch(args.length) {
       case 1:
@@ -91,13 +93,14 @@ public class NavalBattle implements Runnable {
    */
   @SuppressWarnings("WeakerAccess")
   public NavalBattle(int size, int ships) {
-    gameRunning = true;
+    //gameRunning = true;
     int[] array = genArray(size, ships);
     int[] playerArray = genArray(size, 0);
     int[][] playerBoard = arrayToBoard(playerArray, size);
     int[][] board = arrayToBoard(array, size);
     printBoard(playerBoard);
-    saveBoard();
+    //saveBoard(size, board);
+    //loadProgress(board);
   }
 
   /**
@@ -113,23 +116,6 @@ public class NavalBattle implements Runnable {
       array[i] = a;
     }
   }
-
-  /*
-   * Converts a 2D array to a 1D array
-   * @param board 2D array - int[][]
-   * @return 1D array - int[]
-   */
-  /*private int[] boardToArray(int[][] board) {
-    int[] array = new int[(board.length * board[0].length)];
-    int k = 0;
-    for(int i = 0; i < board.length; i++) {
-      for(int j = 0; j < board[0].length; j++) {
-        array[k] = board[i][j];
-        k++;
-      }
-    }
-    return array;
-  }*/
 
   /**
    * Generates an array
@@ -194,34 +180,74 @@ public class NavalBattle implements Runnable {
     }
   }
 
-  private void saveBoard() {
+  /**
+   * Saves progress to file
+   * @param size size of the board - int
+   * @param board array to write to file - int[][]
+   */
+  private void saveBoard(int size, int[][] board) {
     try {
-      FileWriter fileWriter = new FileWriter("progress.txt");
-      fileWriter.write("saved game");
-      fileWriter.close();
+      FileWriter fileWriter = new FileWriter(PROGRESS_FILENAME);
+      BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+      for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+          bufferedWriter.write(String.valueOf(board[i][j]));
+        }
+        bufferedWriter.newLine();
+      }
+
+      bufferedWriter.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  /*
+  /**
+   * Loads progress from file
+   * @param board
+   */
+  private void loadProgress(int[][] board) {
+    List<String> lines = new ArrayList<>();
+    try {
+      FileReader fileReader = new FileReader(PROGRESS_FILENAME);
+      BufferedReader bufferedReader = new BufferedReader(fileReader);
+      String line = null;
+      /*while ((line = bufferedReader.readLine()) != null) {
+        System.out.println("Reading line: " + line);
+      }*/
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("Loading values...");
+    for (int i = 0; i < lines.size(); i++) {
+      String line = lines.get(i);
+      for (int j = 0; j < line.length(); j++) {
+        char value = line.charAt(j);
+        board[i][j] = Character.getNumericValue(value);
+      }
+    }
+  }
+
+  /**
    * Prints a 1D array
    * @param array array to be printed - itn[]
    */
-  /*private void printArray(int[] array) {
+  private void printArray(int[] array) {
     System.out.println();
       for (int value : array) System.out.print(value + " ");
     System.out.println();
-  }*/
+  }
 
-  /*
+  /**
    * Clears screen only in Windows Command Prompt
    */
-  /*private void clearScreen() {
+  private void clearScreen() {
     try {
       new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
     } catch(Exception e) {
         //
     }
-  }*/
+  }
 }
