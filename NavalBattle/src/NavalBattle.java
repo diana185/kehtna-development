@@ -17,12 +17,12 @@ public class NavalBattle implements Runnable {
   public static void main(String[] args) {
     int size = 5;
     int ships = ((size * size) / 3);
-    final int minSize = 5;
-    final int maxSize = 20;
-    final int defaultSize = 10;
-    final int minShips = 3;
-    final int maxShips = ((size * size) / 3);
-    final int defaultShips = ((size * size) / 2);
+    int minSize = 5;
+    int maxSize = 20;
+    int defaultSize = 10;
+    int minShips = 3;
+    int maxShips = ((size * size) / 2);
+    int defaultShips = ((size * size) / 3);
 
     switch(args.length) {
       case 1:
@@ -52,7 +52,7 @@ public class NavalBattle implements Runnable {
         } catch (Exception e) {
           size = defaultSize;
         }
-        System.out.print("Enter the amount of ships (3 - 1/3 of size, default 1/2 of size): ");
+        System.out.print("Enter the amount of ships (3 - 1/2 of size, default 1/3 of size): ");
         try {
           ships = Integer.parseInt(scanner.nextLine());
         } catch (Exception e) {
@@ -98,7 +98,10 @@ public class NavalBattle implements Runnable {
     int[] playerArray = genArray(size, 0);
     int[][] playerBoard = arrayToBoard(playerArray, size);
     int[][] board = arrayToBoard(array, size);
+    //printBoard(board);
     printBoard(playerBoard);
+    System.out.println(size + " " + ships);
+    //clearScreen();
     //saveBoard(size, board);
     //loadProgress(board);
   }
@@ -163,7 +166,11 @@ public class NavalBattle implements Runnable {
     String rowMarker;
     System.out.println();
     for (int i = 0; i < board[0].length; i++) {
-      System.out.print(colMarker[i] + " ");
+      if (i == 0) {
+        System.out.print("    " + colMarker[i] + " ");
+      } else {
+        System.out.print(colMarker[i] + " ");
+      }
     }
     System.out.println();
     for (int i = 0; i < board.length; i++) {
@@ -205,7 +212,7 @@ public class NavalBattle implements Runnable {
 
   /**
    * Loads progress from file
-   * @param board
+   * @param board Array to load into - int[][]
    */
   private void loadProgress(int[][] board) {
     List<String> lines = new ArrayList<>();
@@ -241,13 +248,13 @@ public class NavalBattle implements Runnable {
   }
 
   /**
-   * Clears screen only in Windows Command Prompt
+   * Clears screen
    */
   private void clearScreen() {
     try {
-      new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-    } catch(Exception e) {
-        //
+      Runtime.getRuntime().exec("clear");
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 }
