@@ -4,29 +4,22 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class NavalBattle implements Runnable {
 
+  private boolean gameRunning = false;
+
   public static void main(String[] args) {
     int size = 5;
     int ships = ((size * size) / 3);
     switch(args.length) {
       case 1:
-        try {
-          size = Integer.parseInt(args[0]);
-        } catch(Exception e) {
-          System.out.println("Invalid arguments!");
-          return;
-        }
+        size = Integer.parseInt(args[0]);
         break;
       case 2:
-        try {
-          size = Integer.parseInt(args[0]);
-          ships = Integer.parseInt(args[1]);
-        } catch(Exception e) {
-          System.out.println("Invalid arguments!");
-          return;
-        }
+        size = Integer.parseInt(args[0]);
+        ships = Integer.parseInt(args[1]);
         break;
       default:
-      //
+        size = 5;
+        ships = ((size * size) / 3);
         break;
     }
     NavalBattle app = new NavalBattle(size, ships);
@@ -35,11 +28,11 @@ public class NavalBattle implements Runnable {
   }
   // RUN
   public void run() {
-    while (true) {
+    while (gameRunning) {
       //System.out.println("Running...");
       try {
         Thread.sleep(1000);
-        Runtime.getRuntime().exec("cls");
+        clearScreen();
       } catch(Exception e) {
         // Exception
       }
@@ -118,5 +111,13 @@ public class NavalBattle implements Runnable {
       System.out.print(array[i] + " ");
     }
     System.out.println("");
+  }
+
+  private void clearScreen() {
+    try {
+      new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+    } catch(Exception e) {
+      return;
+    }
   }
 }
