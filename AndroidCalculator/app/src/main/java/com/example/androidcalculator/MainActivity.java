@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     public void onCalcBtn(View view) {
         Button btn = (Button) view;
         String txt = btn.getText().toString();
-
         Toast.makeText(getApplicationContext(), txt, Toast.LENGTH_SHORT).show();
     }
 }
